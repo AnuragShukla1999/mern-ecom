@@ -1,9 +1,9 @@
 import express from "express";
-import { getProduct } from "../controllers/product/getProduct";
-import { saveProduct } from "../controllers/product/saveProduct";
-import { updateProduct } from "../controllers/product/updateProduct";
-import { deleteProduct } from "../controllers/product/deleteProduct";
-import { searchProduct } from "../controllers/product/searchProduct";
+import { getProduct } from "../controllers/product/getProduct.js";
+import { saveProduct } from "../controllers/product/saveProduct.js";
+import { updateProduct } from "../controllers/product/updateProduct.js";
+import { deleteProduct } from "../controllers/product/deleteProduct.js";
+import { searchProduct } from "../controllers/product/searchProduct.js";
 
 const routerProduct = express.Router();
 

@@ -6,6 +6,7 @@ import { updateUser } from '../controllers/user/updateUser.js';
 import { deleteCartItem } from '../controllers/user/deleteCartItem.js';
 import { userDetails } from '../controllers/user/userDetails.js';
 import { resetPassword } from '../controllers/user/resetPassword.js';
+import { auth } from '../middleware/auth.js';
 
 
 const userRouter = express.Router();
@@ -17,8 +18,13 @@ userRouter.put("/update", updateUser);
 userRouter.delete('/deleteCartItem', deleteCartItem);
 
 
+const debugMiddleware = (req, res, next) => {
+    console.log('User details:', req.user);
+    next();
+  };
+
 // token is available
-userRouter.get('/userDetails', userDetails);
+userRouter.get('/userDetails',  userDetails);
 userRouter.put('/reset-password', resetPassword);
 
 export default userRouter;

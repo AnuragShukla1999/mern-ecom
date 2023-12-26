@@ -3,6 +3,9 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { connectDB } from './config/db.js';
 import userRouter from './routes/userRoutes.js';
+import uploadRouter from './routes/uploadRoute.js';
+import productRouter from './routes/productRoute.js'
+// import paymentRouter from './routes/payment.js'
 dotenv.config();
 
 
@@ -19,7 +22,10 @@ app.get("/", (req, res) => {
 })
 
 // Routes
-app.use('/api/user', userRouter)
+app.use('/api/user', userRouter);
+app.use('/api/upload', uploadRouter);
+app.use('/api/product', productRouter);
+// app.use('/api/payment', paymentRouter);
 
 
 const PORT = process.env.PORT || 7000;

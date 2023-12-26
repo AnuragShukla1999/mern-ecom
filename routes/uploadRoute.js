@@ -1,7 +1,7 @@
 import express from 'express';
 
-import uploadMiddleware from '../middleware/uploadFile';
-import { getUploadImage, uploadImage } from '../controllers/upload/image';
+import uploadMiddleware from '../middleware/uploadFile.js';
+import { getUploadImage, uploadImage } from '../controllers/upload/image.js';
 
 const routerUpload = express.Router();
 

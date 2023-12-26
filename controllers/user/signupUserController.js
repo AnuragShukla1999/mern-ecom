@@ -11,10 +11,12 @@ export const signup = async (req, res) => {
         const alreadyUser = await User.findOne({ email });
 
         if (!alreadyUser) {
-            const newUser = new User({ email, password, confirmPassword });
-            await newUser.save();
-            res.status(201).json("user created successfully");
+            return res.status(400).json({ message: 'Email already exists. Please use a different email.' });
         }
+
+        const newUser = new User({ email, password, confirmPassword });
+        await newUser.save();
+        res.status(201).json("user created successfully");
 
     } catch (error) {
         res.status(500).json({ message: error })

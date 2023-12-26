@@ -1,7 +1,8 @@
 import User from "../../models/userModel.js";
-import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { errorHandler } from "../../utils/error.js";
+import bcrypt from 'bcrypt';
+// import bcryptjs from 'bcryptjs';
+// import { errorHandler } from "../../utils/error.js";
 
 
 // export const signin = async (req, res, next) => {
@@ -35,29 +36,64 @@ import { errorHandler } from "../../utils/error.js";
 
 
 
+// export const signin = async (req, res) => {
+//     try {
+//         const { email, password } = req.body;
+//         const user = await User.findOne({ email });
+    
+//         if (!user) {
+//           return res.status(401).json({ error: 'Invalid email or Password' });
+//         }
+    
+//         const isPasswordValid = await bcrypt.compare(password, user.password);
+    
+//         if (!isPasswordValid) {
+//           return res.status(401).json({ error: 'Invalid username or Password' });
+//         }
+    
+//         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "12h" });
+//         const { password: pass, ...rest } = user._doc;
+//         res
+//           .cookie('access_token', token, { httpOnly: true })
+//           .status(200)
+//           .json(rest);
+//       } catch (error) {
+//         res.status(500).json({ error: 'Login failed' });
+//       }
+// }
+
+
+
+
+
+
+
+
+
 export const signin = async (req, res) => {
     try {
-        const {email, password} = req.body;
-        const user = await User.findOne({ email });
-
-        if(!user) {
-            return res.status(401).json({error: 'Invalid username or Password'});
-        }
-
-        if(user.password !== password) {
-            return res.status(401).json({error: 'Invalid username or Password'});
-        }
-
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn : "12h"});
-        const { password: pass, ...rest } = user._doc;
-        res
-          .cookie('access_token', token, { httpOnly: true })
-          .status(200)
-          .json(rest);
+      const { email, password } = req.body;
+      const user = await User.findOne({ email });
+  
+      if (!user) {
+        return res.status(401).json({ error: 'Invalid email or Password' });
+      }
+  
+      const isPasswordValid = bcrypt.compare(password, user.password);
+  
+      if (!isPasswordValid) {
+        return res.status(401).json({ error: 'Invalid username or Password' });
+      }
+  
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '12h' });
+      res.cookie('access_token', token, { httpOnly: true }).status(200).json({ message: 'Successfully logged in', token });
     } catch (error) {
-        res.status(500).json({error: 'Login failed'})
+      console.error('Login failed:', error);
+      res.status(500).json({ error: 'Login failed' });
     }
-}
+  };
+
+
 
 
 
